@@ -282,7 +282,7 @@ Plotting this dataset in latitude/longitude coordinates:
 plot(Jeff_pre$Long,Jeff_pre$Lat,xlab="Longitude",ylab="Latitude",main="Dataset - Jeff")
 ```
 
-![plot of chunk Jeff04](figure/Jeff04-1.png)
+![plot of chunk Jeff04](figures/Jeff04-1.png)
 
 ***
 
@@ -356,7 +356,7 @@ Plotting this dataset in latitude/longitue coordinates:
 plot(Frank_pre$Long,Frank_pre$Lat,xlab="Longitude",ylab="Latitude",main="Dataset - Frank (pre)")
 ```
 
-![plot of chunk Frank04](figure/Frank04-1.png)
+![plot of chunk Frank04](figures/Frank04-1.png)
 
 Reading in the Post-DMSM data:
 
@@ -428,7 +428,7 @@ Plotting this dataset in the latitude/longitude plane:
 plot(Frank_post$Long,Frank_post$Lat,pch=19,col="blue",xlab="Longitude",ylab="Latitude",main="Dataset - Frank (post)")
 ```
 
-![plot of chunk Frank08](figure/Frank08-1.png)
+![plot of chunk Frank08](figures/Frank08-1.png)
 
 Frank's Post-DMSM dataset contains 1930 observations, significantly more than the 314 observations in his Pre-DMSM dataset.  Interpolation by the the DMSM software is imiplicated.
 
@@ -515,7 +515,7 @@ Plotting this dataset in the latitude/longitude plane:
 plot(Nathan_pre$Long,Nathan_pre$Lat,pch=19,col="blue",xlab="Longitude",ylab="Latitude",main="Dataset - Nathan (pre)")
 ```
 
-![plot of chunk Nathan04](figure/Nathan04-1.png)
+![plot of chunk Nathan04](figures/Nathan04-1.png)
 
 Reading in the Post-DMSM data:
 
@@ -595,7 +595,7 @@ Plotting this dataset in the latitude/longitude plane:
 plot(Nathan_post$Long,Nathan_post$Lat,pch=19,col="blue",xlab="Longitude",ylab="Latitude",main="Dataset - Nathan (post)")
 ```
 
-![plot of chunk Nathan08](figure/Nathan08-1.png)
+![plot of chunk Nathan08](figures/Nathan08-1.png)
 
 Nathan's Post-DMSM dataset shows 1809 observations, again more than the 1024 observations in the Pre-DMSM dataset, again implying interpolation by DMSM.
 
