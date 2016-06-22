@@ -70,12 +70,13 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] knitr_1.13
+## [1] xlsx_0.5.7     xlsxjars_0.6.1 rJava_0.9-8    knitr_1.13    
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] magrittr_1.5    formatR_1.4     htmltools_0.3.5 tools_3.3.0    
-##  [5] Rcpp_0.12.5     stringi_1.1.1   rmarkdown_0.9.6 stringr_1.0.0  
-##  [9] digest_0.6.9    evaluate_0.9
+##  [1] magrittr_1.5    formatR_1.4     markdown_0.7.7  htmltools_0.3.5
+##  [5] tools_3.3.0     Rcpp_0.12.5     stringi_1.1.1   rmarkdown_0.9.6
+##  [9] highr_0.6       stringr_1.0.0   digest_0.6.9    mime_0.4       
+## [13] evaluate_0.9
 ```
 Random Number Seed: 19680828
 
@@ -439,17 +440,6 @@ Reading in the Pre-DMSM data:
 
 ```r
 library(xlsx)
-```
-
-```
-## Loading required package: rJava
-```
-
-```
-## Loading required package: xlsxjars
-```
-
-```r
 Nathan_preFN <- "X:\\Projects\\DMSM\\GPS\\1510_GPSTest\\Jeff_Tab\\Analysis.xlsx"
 Nathan_pre <- read.xlsx(Nathan_preFN,1,header=TRUE)
 ```
