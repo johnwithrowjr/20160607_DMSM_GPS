@@ -70,12 +70,13 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] knitr_1.13
+## [1] markdown_0.7.7 xlsx_0.5.7     xlsxjars_0.6.1 rJava_0.9-8   
+## [5] knitr_1.13    
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] magrittr_1.5    formatR_1.4     htmltools_0.3.5 tools_3.3.0    
-##  [5] Rcpp_0.12.5     stringi_1.1.1   rmarkdown_0.9.6 stringr_1.0.0  
-##  [9] digest_0.6.9    evaluate_0.9
+##  [5] Rcpp_0.12.5     stringi_1.1.1   rmarkdown_0.9.6 highr_0.6      
+##  [9] stringr_1.0.0   digest_0.6.9    mime_0.4        evaluate_0.9
 ```
 Random Number Seed: 19680828
 
@@ -439,17 +440,6 @@ Reading in the Pre-DMSM data:
 
 ```r
 library(xlsx)
-```
-
-```
-## Loading required package: rJava
-```
-
-```
-## Loading required package: xlsxjars
-```
-
-```r
 Nathan_preFN <- "X:\\Projects\\DMSM\\GPS\\1510_GPSTest\\Jeff_Tab\\Analysis.xlsx"
 Nathan_pre <- read.xlsx(Nathan_preFN,1,header=TRUE)
 ```
@@ -530,7 +520,7 @@ plot(Nathan_pre$Long,Nathan_pre$Lat,pch=19,col="blue",xlab="Longitude",ylab="Lat
 Reading in the Post-DMSM data:
 
 ```r
-Nathan_postFN <- "D:\\Projects\\GIS_Projects\\20160617 DMSM GPS\\Nathan_post.txt"
+Nathan_postFN <- "D:\\Projects\\GIS_Projects\\20160617 DMSM GPS\\BTWING.csv"
 Nathan_post <- read.csv(Nathan_postFN,header=TRUE)
 ```
 
@@ -541,20 +531,27 @@ str(Nathan_post)
 ```
 
 ```
-## 'data.frame':	1809 obs. of  13 variables:
-##  $ FID       : Factor w/ 1809 levels "0","1","1,000",..: 1 2 922 1033 1144 1255 1366 1477 1588 1699 ...
-##  $ DATE      : Factor w/ 1 level "10/9/2015 0:00:00": 1 1 1 1 1 1 1 1 1 1 ...
-##  $ ELEVATION : int  0 0 0 0 0 0 0 0 0 0 ...
-##  $ STATUS    : int  0 0 0 0 0 0 0 0 0 0 ...
-##  $ REGION_ID : int  2 2 2 2 2 2 2 2 2 2 ...
-##  $ LOCATION_P: Factor w/ 1809 levels "{0027c88c-d1c9-4181-9dd4-ca595c404fc2}",..: 911 1791 164 1385 1347 659 903 684 1391 753 ...
-##  $ MISSION_ID: logi  NA NA NA NA NA NA ...
-##  $ GlobalID  : Factor w/ 1809 levels "{009D737B-1C05-42F9-A7E2-AE8239B1AB1F}",..: 937 1350 330 1586 1039 983 258 666 905 803 ...
-##  $ OBJECTID  : Factor w/ 1809 levels "1","1,340","1,341",..: 1 574 1267 1378 1489 1600 1711 1788 1799 464 ...
-##  $ Pass      : int  0 0 0 0 0 0 0 0 0 0 ...
-##  $ HDOP      : num  0 0 0 0 0 0 0 0 0 0 ...
-##  $ POINT_X   : num  -105 -105 -105 -105 -105 ...
-##  $ POINT_Y   : num  40.6 40.6 40.6 40.6 40.6 ...
+## 'data.frame':	3700 obs. of  20 variables:
+##  $ Lat       : num  40.9 40.9 40.9 40.9 40.9 ...
+##  $ Lng       : num  -105 -105 -105 -105 -105 ...
+##  $ Alt       : num  2892 2893 2894 2894 2894 ...
+##  $ Acc       : num  2.47 2.47 2.47 2.47 2.47 2.47 2.68 2.5 2.48 2.47 ...
+##  $ Time      : Factor w/ 3700 levels "2015-10-09T17:35:19.000Z",..: 1 2 3 4 5 6 7 8 9 10 ...
+##  $ Prv       : Factor w/ 1 level "gps": 1 1 1 1 1 1 1 1 1 1 ...
+##  $ OrgLat    : num  40.9 40.9 40.9 40.9 40.9 ...
+##  $ OrgLng    : num  -105 -105 -105 -105 -105 ...
+##  $ OrgAlt    : num  2892 2893 2894 2894 2894 ...
+##  $ OrgAcc    : num  3.2 3.2 3.2 3.2 3.2 3.2 3.2 3.2 3.2 3.2 ...
+##  $ Speed     : num  85.1 85.1 85.1 84.7 85.1 ...
+##  $ Bearing   : num  89.6 89.5 89.4 90 90.3 ...
+##  $ AdvPrv    : Factor w/ 1 level "gps [GPS]": 1 1 1 1 1 1 1 1 1 1 ...
+##  $ Dly       : Factor w/ 16 levels "00:00:00","00:00:01",..: 1 2 2 2 2 2 3 2 2 2 ...
+##  $ Dst       : num  0.1 84.7 84.7 83.9 85.6 ...
+##  $ AltOfst   : num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ Pressure  : logi  NA NA NA NA NA NA ...
+##  $ PressureRe: logi  NA NA NA NA NA NA ...
+##  $ RefAge    : logi  NA NA NA NA NA NA ...
+##  $ FromBT    : Factor w/ 1 level "false": 1 1 1 1 1 1 1 1 1 1 ...
 ```
 
 ```r
@@ -562,47 +559,40 @@ head(Nathan_post)
 ```
 
 ```
-##   FID              DATE ELEVATION STATUS REGION_ID
-## 1   0 10/9/2015 0:00:00         0      0         2
-## 2   1 10/9/2015 0:00:00         0      0         2
-## 3   2 10/9/2015 0:00:00         0      0         2
-## 4   3 10/9/2015 0:00:00         0      0         2
-## 5   4 10/9/2015 0:00:00         0      0         2
-## 6   5 10/9/2015 0:00:00         0      0         2
-##                               LOCATION_P MISSION_ID
-## 1 {81e7bd2e-dfb1-4bb4-ac5f-aeea0720c2bb}         NA
-## 2 {fc7f0465-861e-4964-9c81-0c8c314a6fa8}         NA
-## 3 {1882fb2b-42bf-432f-95e1-dea47a88a050}         NA
-## 4 {c4a1ca67-2b38-4ac0-a55d-6697d57bfad5}         NA
-## 5 {c01c9e23-9dc7-42e1-a84f-1e393e9c7254}         NA
-## 6 {5add74ca-0bc1-4a13-a120-fccf3e2cf583}         NA
-##                                 GlobalID OBJECTID Pass HDOP   POINT_X
-## 1 {807728AA-6100-4A5E-BC7B-D3942BF68B24}        1    0    0 -105.1532
-## 2 {B76C4CF5-939C-44A9-B951-243D78702496}        2    0    0 -105.1560
-## 3 {2B756310-F87F-449E-B867-2766CC31A1A3}        3    0    0 -105.1589
-## 4 {DAC24760-0B1E-4F77-953A-58C4EAFA8EE9}        4    0    0 -105.1618
-## 5 {8DD26C98-EE61-419C-BBBB-4994BD28C85F}        5    0    0 -105.1647
-## 6 {86344A1A-F93D-4923-B5CD-D09C9C47A0F4}        6    0    0 -105.1675
-##    POINT_Y
-## 1 40.59375
-## 2 40.59564
-## 3 40.59754
-## 4 40.59944
-## 5 40.60133
-## 6 40.60322
+##        Lat       Lng    Alt  Acc                     Time Prv   OrgLat
+## 1 40.93130 -105.3178 2892.3 2.47 2015-10-09T17:35:19.000Z gps 40.93130
+## 2 40.93131 -105.3168 2893.1 2.47 2015-10-09T17:35:20.000Z gps 40.93131
+## 3 40.93132 -105.3158 2893.5 2.47 2015-10-09T17:35:21.000Z gps 40.93133
+## 4 40.93131 -105.3148 2893.9 2.47 2015-10-09T17:35:22.000Z gps 40.93131
+## 5 40.93132 -105.3138 2894.1 2.47 2015-10-09T17:35:23.000Z gps 40.93133
+## 6 40.93132 -105.3128 2893.7 2.47 2015-10-09T17:35:24.000Z gps 40.93131
+##      OrgLng OrgAlt OrgAcc Speed Bearing    AdvPrv      Dly  Dst AltOfst
+## 1 -105.3171 2892.3    3.2 85.11   89.61 gps [GPS] 00:00:00  0.1       0
+## 2 -105.3161 2893.1    3.2 85.14   89.45 gps [GPS] 00:00:01 84.7       0
+## 3 -105.3151 2893.5    3.2 85.14   89.41 gps [GPS] 00:00:01 84.7       0
+## 4 -105.3141 2893.9    3.2 84.71   89.97 gps [GPS] 00:00:01 83.9       0
+## 5 -105.3131 2894.1    3.2 85.06   90.33 gps [GPS] 00:00:01 85.6       0
+## 6 -105.3121 2893.7    3.2 85.17   91.14 gps [GPS] 00:00:01 85.0       0
+##   Pressure PressureRe RefAge FromBT
+## 1       NA         NA     NA  false
+## 2       NA         NA     NA  false
+## 3       NA         NA     NA  false
+## 4       NA         NA     NA  false
+## 5       NA         NA     NA  false
+## 6       NA         NA     NA  false
 ```
 
 Lat and Long fields appear to be already converted, and only the Lat and Long fields are useable:
 
 ```r
-Nathan_post <- Nathan_post[,12:13]
-colnames(Nathan_post) <- c("Long","Lat")
+#Nathan_post <- Nathan_post[,12:13]
+#colnames(Nathan_post) <- c("Long","Lat")
 ```
 
 Plotting this dataset in the latitude/longitude plane:
 
 ```r
-plot(Nathan_post$Long,Nathan_post$Lat,pch=19,col="blue",xlab="Longitude",ylab="Latitude",main="Dataset - Nathan (post)")
+plot(Nathan_post$Lng,Nathan_post$Lat,pch=19,col="blue",xlab="Longitude",ylab="Latitude",main="Dataset - Nathan (post)")
 ```
 
 ![plot of chunk Nathan08](figures/Nathan08-1.png)
@@ -811,7 +801,7 @@ points(buildTable[,"SetTime"],buildTable[,"Lat_Frank"],pch=19,col="red")
 points(buildTable[,"SetTime"],buildTable[,"Lat_Nathan"],pch=19,col="blue")
 ```
 
-![plot of chunk plot latitudes](figure/plot latitudes-1.png)
+![plot of chunk plot latitudes](figures/plot latitudes-1.png)
 
 ```r
 VarTable <- rep(NA,length(buildTable[,2]))
@@ -1499,7 +1489,7 @@ points(buildTable[,"SetTime"],buildTable[,"LatVar2"])
 points(buildTable[,"SetTime"],buildTable[,"LatVar3"])
 ```
 
-![plot of chunk plot latitudes](figure/plot latitudes-2.png)
+![plot of chunk plot latitudes](figures/plot latitudes-2.png)
 
 This represents a maximum deviation among incoming NMEA streams in the Latitudinal direction of about 0.0006 degrees, or:
 
@@ -1522,7 +1512,7 @@ points(buildTable[,"SetTime"],buildTable[,"Long_Frank"],pch=19,col="red")
 points(buildTable[,"SetTime"],buildTable[,"Long_Nathan"],pch=19,col="blue")
 ```
 
-![plot of chunk plot longitudes](figure/plot longitudes-1.png)
+![plot of chunk plot longitudes](figures/plot longitudes-1.png)
 
 ```r
 VarTable <- rep(NA,length(buildTable[,2]))
@@ -2210,7 +2200,7 @@ points(buildTable[,"SetTime"],buildTable[,"LongVar2"])
 points(buildTable[,"SetTime"],buildTable[,"LongVar3"])
 ```
 
-![plot of chunk plot longitudes](figure/plot longitudes-2.png)
+![plot of chunk plot longitudes](figures/plot longitudes-2.png)
 
 This represents a maximum deviation among incoming NMEA streams in the longitudinal direction of about 0.002 degrees, or:
 
@@ -2253,7 +2243,7 @@ xx7 <- unlist(analysis01[,"ASL_Frank"])
 plot(xx1,y,xlab="FixQual_Jeff",ylab="Var:Jeff vs. Frank",main="Assessment: FixQual_Jeff")
 ```
 
-![plot of chunk JeffFrank](figure/JeffFrank-1.png)
+![plot of chunk JeffFrank](figures/JeffFrank-1.png)
 
 ```r
 cor(xx1,y)
@@ -2267,14 +2257,10 @@ cor(xx1,y)
 plot(xx2,y,xlab="NumSat_Jeff",ylab="Var:Jeff vs. Frank",main="Assessment: NumSat_Jeff")
 ```
 
-![plot of chunk JeffFrank](figure/JeffFrank-2.png)
+![plot of chunk JeffFrank](figures/JeffFrank-2.png)
 
 ```r
 cor(xx2,y)
-```
-
-```
-## Warning in cor(xx2, y): the standard deviation is zero
 ```
 
 ```
@@ -2285,7 +2271,7 @@ cor(xx2,y)
 plot(xx3,y,xlab="HDOP_Jeff",ylab="Var:Jeff vs. Frank",main="Assessment: HDOP_Jeff")
 ```
 
-![plot of chunk JeffFrank](figure/JeffFrank-3.png)
+![plot of chunk JeffFrank](figures/JeffFrank-3.png)
 
 ```r
 cor(xx3,y)
@@ -2322,14 +2308,10 @@ summary(lm(y~xx3))
 plot(xx4,y,xlab="FixQual_Frank",ylab="Var:Jeff vs. Frank",main="Assessment: FixQual_Frank")
 ```
 
-![plot of chunk JeffFrank](figure/JeffFrank-4.png)
+![plot of chunk JeffFrank](figures/JeffFrank-4.png)
 
 ```r
 cor(xx4,y)
-```
-
-```
-## Warning in cor(xx4, y): the standard deviation is zero
 ```
 
 ```
@@ -2340,7 +2322,7 @@ cor(xx4,y)
 plot(xx5,y,xlab="NumSat_Frank",ylab="Var:Jeff vs. Frank",main="Assessment: NumSat_Frank")
 ```
 
-![plot of chunk JeffFrank](figure/JeffFrank-5.png)
+![plot of chunk JeffFrank](figures/JeffFrank-5.png)
 
 ```r
 cor(xx5,y)
@@ -2379,7 +2361,7 @@ summary(lm(y~xx5))
 plot(xx6,y,xlab="HDOP_Frank",ylab="Var:Jeff vs. Frank",main="Assessment: HDOP_Frank")
 ```
 
-![plot of chunk JeffFrank](figure/JeffFrank-6.png)
+![plot of chunk JeffFrank](figures/JeffFrank-6.png)
 
 ```r
 cor(xx6,y)
@@ -2418,7 +2400,7 @@ summary(lm(y~xx6))
 plot(xx7,y,xlab="ASL_Frank",ylab="Var:Jeff vs. Frank",main="Assessment: ASL_Frank")
 ```
 
-![plot of chunk JeffFrank](figure/JeffFrank-7.png)
+![plot of chunk JeffFrank](figures/JeffFrank-7.png)
 
 ```r
 cor(xx7,y)
@@ -2470,7 +2452,7 @@ xx8 <- unlist(analysis02[,"Bearing_Nathan"])
 plot(xx1,y,xlab="FixQual_Jeff",ylab="Var:Jeff vs. Nathan",main="Assessment: FixQual_Jeff")
 ```
 
-![plot of chunk JeffNathan](figure/JeffNathan-1.png)
+![plot of chunk JeffNathan](figures/JeffNathan-1.png)
 
 ```r
 cor(xx1,y)
@@ -2484,7 +2466,7 @@ cor(xx1,y)
 plot(xx2,y,xlab="NumSat_Jeff",ylab="Var:Jeff vs. Nathan",main="Assessment: NumSat_Jeff")
 ```
 
-![plot of chunk JeffNathan](figure/JeffNathan-2.png)
+![plot of chunk JeffNathan](figures/JeffNathan-2.png)
 
 ```r
 cor(xx2,y)
@@ -2499,7 +2481,7 @@ plot(xx3,y,xlab="HDOP_Jeff",ylab="Var:Jeff vs. Nathan",main="Assessment: HDOP_Je
 lines(loess.smooth(xx3,y))
 ```
 
-![plot of chunk JeffNathan](figure/JeffNathan-3.png)
+![plot of chunk JeffNathan](figures/JeffNathan-3.png)
 
 ```r
 cor(xx3,y)
@@ -2538,7 +2520,7 @@ summary(lm(y~xx3))
 plot(xx4,y,xlab="Alt_Nathan",ylab="Var:Jeff vs. Nathan",main="Assessment: Alt_Nathan")
 ```
 
-![plot of chunk JeffNathan](figure/JeffNathan-4.png)
+![plot of chunk JeffNathan](figures/JeffNathan-4.png)
 
 ```r
 cor(xx4,y)
@@ -2553,7 +2535,7 @@ plot(xx5,y,xlab="Acc_Nathan",ylab="Var:Jeff vs. Nathan",main="Assessment: Acc_Na
 lines(loess.smooth(xx5,y))
 ```
 
-![plot of chunk JeffNathan](figure/JeffNathan-5.png)
+![plot of chunk JeffNathan](figures/JeffNathan-5.png)
 
 ```r
 cor(xx5,y)
@@ -2592,7 +2574,7 @@ summary(lm(y~xx5))
 plot(xx6,y,xlab="OrgAcc_Nathan",ylab="Var:Jeff vs. Nathan",main="Assessment: OrgAcc_Nathan")
 ```
 
-![plot of chunk JeffNathan](figure/JeffNathan-6.png)
+![plot of chunk JeffNathan](figures/JeffNathan-6.png)
 
 ```r
 cor(xx6,y)
@@ -2632,7 +2614,7 @@ plot(xx7,y,xlab="Speed_Nathan",ylab="Var:Jeff vs. Nathan",main="Assessment: Spee
 lines(loess.smooth(xx7,y))
 ```
 
-![plot of chunk JeffNathan](figure/JeffNathan-7.png)
+![plot of chunk JeffNathan](figures/JeffNathan-7.png)
 
 ```r
 cor(xx7,y)
@@ -2672,7 +2654,7 @@ plot(xx8,y,xlab="Bearing_Nathan",ylab="Var:Jeff vs. Nathan",main="Assessment: Be
 lines(loess.smooth(xx8,y))
 ```
 
-![plot of chunk JeffNathan](figure/JeffNathan-8.png)
+![plot of chunk JeffNathan](figures/JeffNathan-8.png)
 
 ```r
 cor(xx8,y)
@@ -2730,14 +2712,10 @@ xx9 <- unlist(analysis03[,"Bearing_Nathan"])
 plot(xx1,y,xlab="FixQual_Frank",ylab="Var:Frank vs. Nathan",main="Assessment: FixQual_Frank")
 ```
 
-![plot of chunk FrankNathan](figure/FrankNathan-1.png)
+![plot of chunk FrankNathan](figures/FrankNathan-1.png)
 
 ```r
 cor(xx1,y)
-```
-
-```
-## Warning in cor(xx1, y): the standard deviation is zero
 ```
 
 ```
@@ -2749,7 +2727,7 @@ plot(xx2,y,xlab="NumSat_Frank",ylab="Var:Frank vs. Nathan",main="Assessment: Num
 lines(loess.smooth(xx2,y))
 ```
 
-![plot of chunk FrankNathan](figure/FrankNathan-2.png)
+![plot of chunk FrankNathan](figures/FrankNathan-2.png)
 
 ```r
 cor(xx2,y)
@@ -2789,7 +2767,7 @@ plot(xx3,y,xlab="HDOP_Frank",ylab="Var:Frank vs. Nathan",main="Assessment: HDOP_
 lines(loess.smooth(xx3,y))
 ```
 
-![plot of chunk FrankNathan](figure/FrankNathan-3.png)
+![plot of chunk FrankNathan](figures/FrankNathan-3.png)
 
 ```r
 cor(xx3,y)
@@ -2828,7 +2806,7 @@ summary(lm(y~xx3))
 plot(xx4,y,xlab="ASL_Frank",ylab="Var:Frank vs. Nathan",main="Assessment: ASL_Frank")
 ```
 
-![plot of chunk FrankNathan](figure/FrankNathan-4.png)
+![plot of chunk FrankNathan](figures/FrankNathan-4.png)
 
 ```r
 cor(xx4,y)
@@ -2842,7 +2820,7 @@ cor(xx4,y)
 plot(xx5,y,xlab="Alt_Nathan",ylab="Var:Frank vs. Nathan",main="Assessment: Alt_Nathan")
 ```
 
-![plot of chunk FrankNathan](figure/FrankNathan-5.png)
+![plot of chunk FrankNathan](figures/FrankNathan-5.png)
 
 ```r
 cor(xx5,y)
@@ -2856,7 +2834,7 @@ cor(xx5,y)
 plot(xx6,y,xlab="Acc_Nathan",ylab="Var:Frank vs. Nathan",main="Assessment: Acc_Nathan")
 ```
 
-![plot of chunk FrankNathan](figure/FrankNathan-6.png)
+![plot of chunk FrankNathan](figures/FrankNathan-6.png)
 
 ```r
 cor(xx6,y)
@@ -2870,7 +2848,7 @@ cor(xx6,y)
 plot(xx7,y,xlab="OrgAcc_Nathan",ylab="Var:Frank vs. Nathan",main="Assessment: OrgAcc_Nathan")
 ```
 
-![plot of chunk FrankNathan](figure/FrankNathan-7.png)
+![plot of chunk FrankNathan](figures/FrankNathan-7.png)
 
 ```r
 cor(xx7,y)
@@ -2884,7 +2862,7 @@ cor(xx7,y)
 plot(xx8,y,xlab="Speed_Nathan",ylab="Var:Frank vs. Nathan",main="Assessment: Speed_Nathan")
 ```
 
-![plot of chunk FrankNathan](figure/FrankNathan-8.png)
+![plot of chunk FrankNathan](figures/FrankNathan-8.png)
 
 ```r
 cor(xx8,y)
@@ -2898,7 +2876,7 @@ cor(xx8,y)
 plot(xx9,y,xlab="Bearing_Nathan",ylab="Var:Frank vs. Nathan",main="Assessment: Bearing_Nathan")
 ```
 
-![plot of chunk FrankNathan](figure/FrankNathan-9.png)
+![plot of chunk FrankNathan](figures/FrankNathan-9.png)
 
 ```r
 cor(xx9,y)
@@ -2908,9 +2886,39 @@ cor(xx9,y)
 ## [1] -0.1591642
 ```
 
-             Estimate Std. Error t value Pr(>|t|)
-NumSat_Frank  -31.044      2.422  -12.82   <2e-16  -0.8086255
-HDOP_Frank     73.104      9.827   7.439 6.74e-11   0.6235136
+             Estimate Std. Error t value Pr(>|t|)  
+NumSat_Frank  -31.044      2.422  -12.82   <2e-16  -0.8086255  
+HDOP_Frank     73.104      9.827   7.439 6.74e-11   0.6235136  
+
+***Comparison of Nathan pre and post DMSM***  
+Extract actual time value from time field.
+
+```r
+Nathan_post$Time <- substr(Nathan_post$Time,12,19)
+head(Nathan_post$Time)
+```
+
+```
+## [1] "17:35:19" "17:35:20" "17:35:21" "17:35:22" "17:35:23" "17:35:24"
+```
+
+```r
+Nathan_post$newtime <- 3600 * as.integer(substr(Nathan_post$Time,1,2)) + 60 * as.integer(substr(Nathan_post$Time,4,5)) + as.integer(substr(Nathan_post$Time,7,8))
+head(Nathan_post$newtime)
+```
+
+```
+## [1] 63319 63320 63321 63322 63323 63324
+```
+
+```r
+summary(Nathan_post$newtime)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   63320   64480   65480   65500   66570   67540
+```
 
 ### Discussion
 
